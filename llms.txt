@@ -1,0 +1,15 @@
+# Downloading
+
+Open-source Windows media downloader with video/audio quality selection powered by yt-dlp.
+
+## Windows downloads
+- Installer: https://github.com/amirhoseinteras/downloading-desktop/releases/latest/download/Downloading-Setup.exe
+- Portable ZIP: https://github.com/amirhoseinteras/downloading-desktop/releases/latest/download/Downloading-Portable.zip
+- SHA-256 checksums: https://github.com/amirhoseinteras/downloading-desktop/releases/latest
+
+Unsigned binaries may show a Windows SmartScreen warning. Always verify the release checksums.
+
+## Source, documentation and support
+- Instructions, requirements, license and limitations: https://github.com/amirhoseinteras/downloading-desktop#readme
+- Report issues: https://github.com/amirhoseinteras/downloading-desktop/issues
+- Source code and reproducible build instructions: https://github.com/amirhoseinteras/downloading-desktop

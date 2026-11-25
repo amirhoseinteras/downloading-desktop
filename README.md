@@ -1,62 +1,110 @@
-# Downloading — Free and Open-Source Windows Software
+<p align="center">
+  <img src="AmigaNLoad_header_logo.png" alt="AmigaNLoad" width="96">
+</p>
 
-Graphical Windows media downloader for supported websites, with video/audio quality selection and local saving.
+<h1 align="center">AmigaNLoad</h1>
+<p align="center"><strong>A compact Windows video and audio downloader.</strong></p>
+<p align="center">Paste a link. Choose a format. Set the quality. Download and keep it organized.</p>
 
-[![Automated tests](https://github.com/amirhoseinteras/downloading-desktop/actions/workflows/tests.yml/badge.svg)](https://github.com/amirhoseinteras/downloading-desktop/actions/workflows/tests.yml)
-[Download for Windows](https://github.com/amirhoseinteras/downloading-desktop/releases/latest) · [Source code](https://github.com/amirhoseinteras/downloading-desktop) · [Report a problem](https://github.com/amirhoseinteras/downloading-desktop/issues)
+<p align="center">
+  <a href="https://github.com/amirhoseinteras/downloading-desktop/releases/latest/download/AmigaNLoad-Setup.exe"><strong>Download Setup</strong></a>
+  ·
+  <a href="https://github.com/amirhoseinteras/downloading-desktop/releases/latest/download/AmigaNLoad-Portable.zip"><strong>Download Portable</strong></a>
+  ·
+  <a href="README.fa.md">راهنمای فارسی</a>
+</p>
 
-**Version:** 3.1 · **Platform:** Windows · **License:** GPL-3.0-or-later
+<p align="center">
+  <a href="https://github.com/amirhoseinteras/downloading-desktop/actions/workflows/tests.yml"><img src="https://img.shields.io/github/actions/workflow/status/amirhoseinteras/downloading-desktop/tests.yml?branch=main&label=tests" alt="Automated tests"></a>
+  <a href="https://img.shields.io/github/v/release/amirhoseinteras/downloading-desktop?label=latest%20release"><img src="https://img.shields.io/github/v/release/amirhoseinteras/downloading-desktop?label=latest%20release" alt="Latest release"></a>
+  <a href="https://img.shields.io/github/license/amirhoseinteras/downloading-desktop"><img src="https://img.shields.io/github/license/amirhoseinteras/downloading-desktop" alt="GPL-3.0-or-later"></a>
+</p>
 
-## Features
-- Preview available media information and select a download format or quality.
-- Download supported online video and audio using yt-dlp.
-- Choose a regular installer or extract a portable Windows ZIP.
+**AmigaNLoad is the new name of Downloading.** The repository address and legacy download-history folder are kept for compatibility with existing users.
 
-## Download and install
+## A straightforward downloader, without a complicated interface
 
-| Version | Direct download | How to use |
+AmigaNLoad is a small Windows desktop application for downloading supported online video and audio. It uses yt-dlp to inspect a link, show available media information, and download the selected format to a folder on your computer.
+
+No account, subscription, or cloud library is required. The application runs on your Windows PC; an internet connection is needed to access the media source.
+
+## What you can do
+
+- **Paste or enter a link:** paste a URL from the clipboard or type it directly.
+- **Preview media details:** automatically check the link and estimate the download size when source metadata is available.
+- **Choose video quality:** Best, 1080p, 720p, or 480p.
+- **Download audio:** choose MP3 320 kbps or the best available original audio.
+- **Select where to save:** use the default folder or choose another location.
+- **Follow the progress:** see download percentage, transfer speed, and completion or error status.
+- **Keep a short history:** the app remembers the three most recent downloads, lets you retry a failed item, and opens a downloaded file when available.
+- **Use supported browser sessions:** for content that requires login, choose a detected Firefox, Edge, Chrome, Brave, Vivaldi, Chromium, Opera, or Opera GX profile.
+- **Stay compact:** a small, focused window keeps the main download controls together.
+
+## Screenshots
+
+The three image areas are reserved for real application screenshots. Replace these placeholders when the screenshots are supplied.
+
+<p align="center">
+  <img src="docs/screenshots/amiganload-main-placeholder.svg" alt="AmigaNLoad main window screenshot" width="32%">
+  <img src="docs/screenshots/amiganload-format-placeholder.svg" alt="AmigaNLoad video and audio quality selection screenshot" width="32%">
+  <img src="docs/screenshots/amiganload-history-placeholder.svg" alt="AmigaNLoad recent downloads screenshot" width="32%">
+</p>
+
+## Download for Windows
+
+The latest release is designed to present only two downloads:
+
+| Package | Choose this when | Download |
 | --- | --- | --- |
-| Installer | [Downloading-Setup.exe](https://github.com/amirhoseinteras/downloading-desktop/releases/latest/download/Downloading-Setup.exe) | Launch setup; installs shortcuts and an uninstaller for the current user |
-| Portable | [Downloading-Portable.zip](https://github.com/amirhoseinteras/downloading-desktop/releases/latest/download/Downloading-Portable.zip) | Unzip first; launch Downloading.exe; no installation required |
-| Checksum | [SHA256SUMS.txt](https://github.com/amirhoseinteras/downloading-desktop/releases/latest/download/SHA256SUMS.txt) | Verify downloads using SHA-256 |
+| **Setup (.exe)** | You want a normal per-user installation with Desktop and Start Menu shortcuts and an uninstaller. | [AmigaNLoad Setup](https://github.com/amirhoseinteras/downloading-desktop/releases/latest/download/AmigaNLoad-Setup.exe) |
+| **Portable (.zip)** | You want to extract the archive and run AmigaNLoad.exe without installing it. | [AmigaNLoad Portable](https://github.com/amirhoseinteras/downloading-desktop/releases/latest/download/AmigaNLoad-Portable.zip) |
 
-### Verify your download
+The Portable archive contains only the application executable and its two required image assets. It does not include source code, build folders, test logs, or unrelated utilities.
 
-~~~powershell
-Get-FileHash .\Downloading-Setup.exe -Algorithm SHA256
+### Updating from Downloading 3.1
+
+AmigaNLoad 3.2 keeps the former Downloading installation folder and uninstall registry entry so the new Setup can replace the old executable in place. The Start Menu and Desktop shortcuts are renamed to AmigaNLoad. The existing download folder and recent-download history remain under:
+
+~~~text
+%USERPROFILE%\Downloads\Downloading
 ~~~
-Compare the calculated hash with the entry for the same filename in SHA256SUMS.txt.
 
-**Security note:** The Windows EXE files are unsigned. Windows SmartScreen may warn you. Verify files and source code; do not disable security protections just to install an unfamiliar program.
+Close the old Downloading application before running Setup. Your downloaded media files are not deleted by installation or uninstallation.
 
-## Requirements and limitations
+## Requirements and compatibility
 
-- Some websites require legitimate login. Support varies by website and yt-dlp version. Some conversions or merges require an independently installed FFmpeg.
-- yt-dlp and its dependencies have their own license terms. See THIRD_PARTY.md.
-- Use only with content and files you are legally permitted to download or handle.
+- Windows 10 or Windows 11.
+- The published Setup and Portable packages are self-contained Windows executables; Python is not required to run them.
+- Supported sites and available formats depend on yt-dlp and may change over time.
+- Some sites require a valid login session. Browser-cookie access is available for detected local browser profiles.
+- FFmpeg is optional and is not bundled. Some format merging and MP3 conversion operations require a separately installed FFmpeg.
+- Use the application only for content you are legally permitted to download.
 
-## Run and test from source
+## Run from source
 
-- Windows with Python 3.10+ and Tkinter.
-- Clone this repository and open a terminal inside it.
+For development, use Python 3.10 or newer with Tkinter.
+
 ~~~powershell
 python -m pip install -r requirements.txt
+python -m pip install pyinstaller
 python downloading.py
 python -m unittest discover -s tests -v
+python build_windows.py
 ~~~
 
-For a Windows executable, install PyInstaller and run the included build script. Installer packaging sources are under packaging/.
+The build script creates the Setup and Portable packages in the dist folder.
 
-## Open-source development
+## Privacy and security
 
-- [License](LICENSE) · [Security guidance](SECURITY.md) · [Third-party notices](https://github.com/amirhoseinteras/downloading-desktop/blob/main/THIRD_PARTY.md)
-- [Contributing](CONTRIBUTING.md) · [Version history](CHANGELOG.md) · [Issues](https://github.com/amirhoseinteras/downloading-desktop/issues)
-- The published source is intended to be readable by developers, search engines and AI assistants. Check the code for definitive technical behavior.
+AmigaNLoad does not upload your saved download history to a cloud service. The recent-download list is stored locally in the legacy Downloading folder so existing history remains available.
 
-## فارسی — راهنمای کوتاه
+The published Windows executables are not code-signed. Windows SmartScreen may display a warning. Review the source and release information before running downloaded files; do not disable Windows security protections to bypass a warning.
 
-**Downloading** یک نرم‌افزار رایگان و متن‌باز برای ویندوز است. برای نصب، فایل Setup و برای اجرای بدون نصب، فایل Portable ZIP را از بخش Releases دریافت کنید.
-برای اطمینان از سالم بودن فایل دانلودشده، مقدار SHA-256 را با فایل SHA256SUMS.txt همان نسخه مقایسه کنید.
+## Project information
 
----
-**Official repository:** https://github.com/amirhoseinteras/downloading-desktop · **Downloads:** https://github.com/amirhoseinteras/downloading-desktop/releases
+- License: [GPL-3.0-or-later](LICENSE)
+- Third-party components: [THIRD_PARTY.md](THIRD_PARTY.md)
+- Security guidance: [SECURITY.md](SECURITY.md)
+- Changelog: [CHANGELOG.md](CHANGELOG.md)
+- Issues and feedback: [GitHub Issues](https://github.com/amirhoseinteras/downloading-desktop/issues)
+- Source repository: [amirhoseinteras/downloading-desktop](https://github.com/amirhoseinteras/downloading-desktop)

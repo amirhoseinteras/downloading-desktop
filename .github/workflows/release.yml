@@ -1,0 +1,103 @@
+name: Build and publish AmigaNLoad 3.2
+
+on:
+  push:
+    branches:
+      - release/amiganload-3.2
+
+permissions:
+  contents: write
+
+jobs:
+  windows-release:
+    runs-on: windows-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        shell: pwsh
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install pyinstaller
+
+      - name: Run tests
+        shell: pwsh
+        run: python -m unittest discover -s tests -v
+
+      - name: Build Setup and Portable packages
+        shell: pwsh
+        run: python build_windows.py
+
+      - name: Verify the Setup package
+        shell: pwsh
+        run: |
+          $setup = Join-Path $PWD "dist\AmigaNLoad-Setup.exe"
+          if (!(Test-Path $setup)) { throw "Setup package was not created." }
+          $inspect = Start-Process -FilePath $setup -ArgumentList @("--inspect") -Wait -PassThru
+          if ($inspect.ExitCode -ne 0) { throw "Setup payload inspection failed with exit code $($inspect.ExitCode)." }
+
+          $testFolder = Join-Path $env:TEMP ("AmigaNLoad-install-test-" + $env:GITHUB_RUN_ID)
+          $installTest = Start-Process -FilePath $setup -ArgumentList @("--install-test", $testFolder) -Wait -PassThru
+          if ($installTest.ExitCode -ne 0) { throw "Isolated install test failed with exit code $($installTest.ExitCode)." }
+          if (!(Test-Path (Join-Path $testFolder "AmigaNLoad.exe"))) { throw "Installed executable is missing." }
+
+          $uninstallTest = Start-Process -FilePath $setup -ArgumentList @("--uninstall-test", $testFolder) -Wait -PassThru
+          if ($uninstallTest.ExitCode -ne 0) { throw "Isolated uninstall test failed with exit code $($uninstallTest.ExitCode)." }
+          if (Test-Path $testFolder) { throw "Temporary install folder was not cleaned up." }
+
+      - name: Verify Portable contents and prepare release notes
+        shell: pwsh
+        run: |
+          $portable = Join-Path $PWD "dist\AmigaNLoad-Portable.zip"
+          if (!(Test-Path $portable)) { throw "Portable package was not created." }
+
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          $zip = [System.IO.Compression.ZipFile]::OpenRead($portable)
+          $entries = @($zip.Entries | ForEach-Object { $_.FullName })
+          $zip.Dispose()
+
+          $expected = @("AmigaNLoad.exe", "AmigaNLoad.ico", "AmigaNLoad_header_logo.png")
+          if ((($entries | Sort-Object) -join "|") -ne (($expected | Sort-Object) -join "|")) {
+            throw ("Unexpected Portable contents: " + ($entries -join ", "))
+          }
+
+          $setupHash = (Get-FileHash (Join-Path $PWD "dist\AmigaNLoad-Setup.exe") -Algorithm SHA256).Hash
+          $portableHash = (Get-FileHash $portable -Algorithm SHA256).Hash
+          @"
+          # AmigaNLoad 3.2
+
+          AmigaNLoad is the new name of Downloading. This release includes the Windows Setup installer and Portable ZIP only.
+
+          - Setup: per-user installation, Desktop and Start Menu shortcuts, and uninstaller.
+          - Portable: extract the ZIP and run AmigaNLoad.exe; no installation is required.
+          - Existing Downloading 3.1 installation and download-history locations are preserved during upgrades.
+          - FFmpeg is optional and is not bundled. Some merging and MP3 conversion tasks require a separate FFmpeg installation.
+          - Windows binaries are unsigned; SmartScreen may display a warning.
+
+          SHA-256
+
+          - AmigaNLoad-Setup.exe: $setupHash
+          - AmigaNLoad-Portable.zip: $portableHash
+          "@ | Set-Content -Path release-notes.md -Encoding UTF8
+
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v3.2
+          name: AmigaNLoad 3.2
+          target_commitish: release/amiganload-3.2
+          body_path: release-notes.md
+          files: |
+            dist/AmigaNLoad-Setup.exe
+            dist/AmigaNLoad-Portable.zip
+          fail_on_unmatched_files: true
+          overwrite_files: true
+          draft: false
+          prerelease: false

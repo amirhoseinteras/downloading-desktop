@@ -67,6 +67,11 @@ def install(folder: Path, register=True):
         raise RuntimeError("App payload missing in setup.")
     folder.mkdir(parents=True, exist_ok=True)
 
+    required_payload = [payload_root() / name for name in [APP_EXE] + ASSETS]
+    for source in required_payload:
+        if not source.is_file():
+            raise FileNotFoundError(source)
+
     old_exe = folder / LEGACY_EXE
     if old_exe.exists():
         try:
@@ -75,11 +80,6 @@ def install(folder: Path, register=True):
             raise RuntimeError(
                 "Close the previous Downloading application, then run this installer again."
             ) from exc
-
-    required_payload = [payload_root() / name for name in [APP_EXE] + ASSETS]
-    for source in required_payload:
-        if not source.is_file():
-            raise FileNotFoundError(source)
 
     for source in required_payload:
         shutil.copy2(source, folder / source.name)
@@ -159,7 +159,6 @@ def uninstall(folder: Path, register=True):
 def main():
     args = sys.argv[1:]
     if args == ["--inspect"]:
-        print("SETUP_OK", APP_TITLE, APP_VERSION, "PAYLOAD", payload_ready())
         return 0 if payload_ready() else 2
 
     if len(args) == 2 and args[0] in ("--install-test", "--uninstall-test"):
@@ -168,10 +167,10 @@ def main():
         if not folder.is_relative_to(temp) or folder == temp:
             raise ValueError("Test install path must be a subdirectory of TEMP")
         if args[0] == "--install-test":
-            print("TEST_INSTALLED", install(folder, False))
+            install(folder, False)
         else:
             uninstall(folder, False)
-            print("TEST_UNINSTALLED", folder)
+            uninstall(folder, False)
         return 0
 
     tk.Tk().withdraw()

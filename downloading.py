@@ -7,8 +7,8 @@ import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 import yt_dlp
 
-APP_NAME = "Downloading"
-APP_VERSION = "3.1"
+APP_NAME = "AmigaNLoad"
+APP_VERSION = "3.2"
 BG = "#0b1020"
 CARD = "#141b2d"
 FIELD = "#202a42"
@@ -26,6 +26,7 @@ def app_dir():
 
 
 def default_download_dir():
+    # Preserve the legacy folder so old downloads and recent-history data remain available.
     path = os.path.join(os.path.expanduser("~"), "Downloads", "Downloading")
     os.makedirs(path, exist_ok=True)
     return path
@@ -71,7 +72,7 @@ class DownloadingApp(tk.Tk):
         self.overrideredirect(True)
         self.resizable(False, False)
         self.configure(bg=BG)
-        ico = os.path.join(app_dir(), "Downloading.ico")
+        ico = os.path.join(app_dir(), "AmigaNLoad.ico")
         if os.path.exists(ico):
             try:
                 self.iconbitmap(ico)
@@ -204,7 +205,7 @@ class DownloadingApp(tk.Tk):
         bar.pack(fill="x", side="top")
         bar.pack_propagate(False)
 
-        logo = os.path.join(app_dir(), "Downloading_header_logo.png")
+        logo = os.path.join(app_dir(), "AmigaNLoad_header_logo.png")
         if os.path.exists(logo):
             self._title_logo = tk.PhotoImage(file=logo)
             tk.Label(bar, image=self._title_logo, bg=BG, bd=0).place(x=12, y=4, width=54, height=54)

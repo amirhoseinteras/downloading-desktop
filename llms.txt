@@ -1,15 +1,33 @@
-# Downloading
+# AmigaNLoad
 
-Open-source Windows media downloader with video/audio quality selection powered by yt-dlp.
+Compact open-source Windows video/audio downloader, formerly published as Downloading.
+Version 3.2. Uses yt-dlp. Windows 10/11. GPL-3.0-or-later.
 
 ## Windows downloads
-- Installer: https://github.com/amirhoseinteras/downloading-desktop/releases/latest/download/Downloading-Setup.exe
-- Portable ZIP: https://github.com/amirhoseinteras/downloading-desktop/releases/latest/download/Downloading-Portable.zip
-- SHA-256 checksums: https://github.com/amirhoseinteras/downloading-desktop/releases/latest
+- Setup: https://github.com/amirhoseinteras/downloading-desktop/releases/latest/download/AmigaNLoad-Setup.exe
+- Portable ZIP: https://github.com/amirhoseinteras/downloading-desktop/releases/latest/download/AmigaNLoad-Portable.zip
 
-Unsigned binaries may show a Windows SmartScreen warning. Always verify the release checksums.
+The latest release contains only these two downloadable packages. The Portable ZIP contains the executable and required image assets only.
 
-## Source, documentation and support
-- Instructions, requirements, license and limitations: https://github.com/amirhoseinteras/downloading-desktop#readme
-- Report issues: https://github.com/amirhoseinteras/downloading-desktop/issues
-- Source code and reproducible build instructions: https://github.com/amirhoseinteras/downloading-desktop
+## Features
+- Link paste and media metadata preview
+- Video quality: Best, 1080p, 720p, 480p
+- Audio: MP3 320 kbps or best original audio
+- Estimated file size, progress percentage and transfer speed
+- Custom output folder
+- Three-item recent history, retry and open downloaded file
+- Optional browser-session authentication for detected local profiles
+
+## Requirements and limitations
+- Windows 10 or Windows 11
+- FFmpeg is optional and not bundled; some merging and MP3 conversion tasks require it.
+- Website support depends on yt-dlp and changes over time.
+- Use only for content the user is legally allowed to download.
+- Published Windows executables are unsigned.
+
+## Documentation and source
+- English: https://github.com/amirhoseinteras/downloading-desktop#readme
+- Persian: https://github.com/amirhoseinteras/downloading-desktop/blob/main/README.fa.md
+- Source: https://github.com/amirhoseinteras/downloading-desktop
+- License: https://github.com/amirhoseinteras/downloading-desktop/blob/main/LICENSE
+- Issues: https://github.com/amirhoseinteras/downloading-desktop/issues

@@ -76,11 +76,13 @@ def install(folder: Path, register=True):
                 "Close the previous Downloading application, then run this installer again."
             ) from exc
 
-    for name in [APP_EXE] + ASSETS:
-        source = payload_root() / name
+    required_payload = [payload_root() / name for name in [APP_EXE] + ASSETS]
+    for source in required_payload:
         if not source.is_file():
             raise FileNotFoundError(source)
-        shutil.copy2(source, folder / name)
+
+    for source in required_payload:
+        shutil.copy2(source, folder / source.name)
 
     for name in LEGACY_ASSETS:
         old_asset = folder / name
@@ -140,8 +142,8 @@ def uninstall(folder: Path, register=True):
     if register and (folder / "Uninstall.exe").exists():
         script = (
             "Start-Sleep -Seconds 2;Remove-Item -LiteralPath "
-            + repr(str(folder / "Uninstall.exe"))
-            + " -Force -ErrorAction SilentlyContinue"
+            + repr(str(folder))
+            + " -Recurse -Force -ErrorAction SilentlyContinue"
         )
         subprocess.Popen(
             ["powershell.exe", "-NoProfile", "-WindowStyle", "Hidden", "-Command", script],

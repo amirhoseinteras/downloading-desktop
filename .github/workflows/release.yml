@@ -40,16 +40,16 @@ jobs:
         run: |
           $setup = Join-Path $PWD "dist\AmigaNLoad-Setup.exe"
           if (!(Test-Path $setup)) { throw "Setup package was not created." }
-          & $setup --inspect
-          if ($LASTEXITCODE -ne 0) { throw "Setup payload inspection failed." }
+          $inspect = Start-Process -FilePath $setup -ArgumentList @("--inspect") -Wait -PassThru
+          if ($inspect.ExitCode -ne 0) { throw "Setup payload inspection failed with exit code $($inspect.ExitCode)." }
 
           $testFolder = Join-Path $env:TEMP ("AmigaNLoad-install-test-" + $env:GITHUB_RUN_ID)
-          & $setup --install-test $testFolder
-          if ($LASTEXITCODE -ne 0) { throw "Isolated install test failed." }
+          $installTest = Start-Process -FilePath $setup -ArgumentList @("--install-test", $testFolder) -Wait -PassThru
+          if ($installTest.ExitCode -ne 0) { throw "Isolated install test failed with exit code $($installTest.ExitCode)." }
           if (!(Test-Path (Join-Path $testFolder "AmigaNLoad.exe"))) { throw "Installed executable is missing." }
 
-          & $setup --uninstall-test $testFolder
-          if ($LASTEXITCODE -ne 0) { throw "Isolated uninstall test failed." }
+          $uninstallTest = Start-Process -FilePath $setup -ArgumentList @("--uninstall-test", $testFolder) -Wait -PassThru
+          if ($uninstallTest.ExitCode -ne 0) { throw "Isolated uninstall test failed with exit code $($uninstallTest.ExitCode)." }
           if (Test-Path $testFolder) { throw "Temporary install folder was not cleaned up." }
 
       - name: Verify Portable contents and prepare release notes
